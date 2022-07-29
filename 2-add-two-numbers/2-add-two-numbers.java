@@ -12,34 +12,36 @@
 // to parse to int as asci code (int)
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode result = new ListNode(0);
+        ListNode resultPointer = result;
         
-        ListNode resultHead = new ListNode(0);
-        ListNode resultIterator = resultHead;
+        ListNode p1 = l1;
+        ListNode p2 = l2;
         
-        ListNode pointer1 = l1;
-        ListNode pointer2 = l2;
         boolean carry = false;
         
-        while(pointer1 != null || pointer2 != null){
+        while(p1 != null || p2 != null){
+            
             int sum = 0;
-            if(pointer1 == null){
-                sum += pointer2.val;
-                pointer2 = pointer2.next;
+            
+            if(p1 == null){
+                sum += p2.val;
+                p2 = p2.next;
             }
-            else if(pointer2 == null){
-                sum += pointer1.val;
-                pointer1 = pointer1.next;
+            else if(p2 == null){
+                sum += p1.val;
+                p1 = p1.next;
             }
             else{
-                sum = (pointer1.val + pointer2.val);
-                pointer1 = pointer1.next;
-                pointer2 = pointer2.next;
+                sum = p1.val + p2.val;
+                p1 = p1.next;
+                p2 = p2.next;
             }
-            
             if(carry){
                 sum++;
             }
-            if(sum >= 10) {
+            
+            if(sum >= 10){
                 sum %= 10;
                 carry = true;
             }
@@ -48,14 +50,13 @@ class Solution {
             }
             
             ListNode newNode = new ListNode(sum);
-            resultIterator.next = newNode;
-            resultIterator= resultIterator.next;
+            resultPointer.next = newNode;
+            resultPointer = resultPointer.next;
+        }
+        if (carry){
+            resultPointer.next = new ListNode(1);
         }
         
-        if(carry)
-            resultIterator.next = new ListNode(1);
-        
-        
-        return resultHead.next;
+        return result.next;
     }
 }
